@@ -76,7 +76,44 @@ namespace MatrixAlgoritmsLibrary
         }
         #endregion
 
+        #region Methods
+        /// <summary>
+        /// Метод для представления неквадратной матрицы в виде квадратной (добавлением пустых элементов)
+        /// </summary>
+        /// <returns></returns>
+        public MyMatrix ToSquare()
+        {
+            int order = Math.Max(ColumnsCount, RowsCount);
+            MyMatrix ans = new MyMatrix(order);
 
+            for (int i = 0; i < RowsCount; i++)
+            {
+                for (int j = 0; j < ColumnsCount; j++)
+                {
+                    ans.Matrix[i, j] = Matrix[i, j];
+                }
+            }
+            return ans;
+        }
+
+        public MyMatrix ToSquare(int order)
+        {
+            MyMatrix ans = new MyMatrix(order);
+
+            for (int i = 0; i < RowsCount; i++)
+            {
+                for (int j = 0; j < ColumnsCount; j++)
+                {
+                    ans.Matrix[i, j] = Matrix[i, j];
+                }
+            }
+            return ans;
+        }
+
+        /// <summary>
+        /// Переопределенный метод ToString для возвращения строки, представляющей матрицу
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string ans = "";
@@ -92,5 +129,7 @@ namespace MatrixAlgoritmsLibrary
 
             return ans;
         }
+        #endregion
+
     }
 }
