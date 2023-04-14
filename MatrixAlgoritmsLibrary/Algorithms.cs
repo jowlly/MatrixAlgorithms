@@ -174,6 +174,7 @@ namespace MatrixAlgoritmsLibrary
             }
             else
             {
+                //деление на два блока
                 n = n / 2;
 
                 MyMatrix a11 = new MyMatrix(n);
@@ -187,10 +188,11 @@ namespace MatrixAlgoritmsLibrary
                 MyMatrix b21 = new MyMatrix(n);
                 MyMatrix b22 = new MyMatrix(n);
 
+                //деление двух блоков на четверти
                 SplitToQuarters(a, out a11, out a12, out a21, out a22);
                 SplitToQuarters(b, out b11, out b12, out b21, out b22);
 
-
+                //рассчёт по формулам
                 MyMatrix d1 = ShtrassenMultiplication(Sum(a11, a22), Sum(b11, b22));
                 MyMatrix d2 = ShtrassenMultiplication(Sum(a21, a22), b11);
                 MyMatrix d3 = ShtrassenMultiplication(a11, Subscrtract(b11, b22));
@@ -199,7 +201,7 @@ namespace MatrixAlgoritmsLibrary
                 MyMatrix d6 = ShtrassenMultiplication(Subscrtract(a21, a11), Sum(b11, b12));
                 MyMatrix d7 = ShtrassenMultiplication(Subscrtract(a12, a22), Sum(b21, b22));
 
-
+                //рассчёт по формулам
                 MyMatrix c11 = Sum(Sum(d1, d4), Subscrtract(d7, d5));
                 MyMatrix c12 = Sum(d3, d5);
                 MyMatrix c21 = Sum(d2, d4);
