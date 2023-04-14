@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace MatrixAlgoritmsLibrary
 {
-    public class MyMatrix
+    /// <summary>
+    /// Класс, представляющий матрицу
+    /// </summary>
+    public class MyMatrix //<T>
     {
         #region fields
         private float[,] _matrix;
@@ -27,6 +30,15 @@ namespace MatrixAlgoritmsLibrary
         /// Возвращает кол-во столбцов матрицы
         /// </summary>
         public int ColumnsCount { get => Matrix.GetLength(1); }
+
+        /// <summary>
+        /// Возвращает порядок квадратной матрицы
+        /// </summary>
+        public int Order { get
+            {
+                if (IsSquare) return RowsCount;
+                return -1;
+            } }
 
         /// <summary>
         /// Проверка на квадратную матрицу
@@ -111,9 +123,71 @@ namespace MatrixAlgoritmsLibrary
         }
 
         /// <summary>
+        /// Метод копирования части матрицы, заданной по индексам строк и столбцов
+        /// из большего блока в меньший 
+        /// </summary>
+        /// <param name="startrows">индекс строки большего блока, с котрого нужно начать копирование
+        /// из большего блока в меньший</param>
+        /// <param name="startcolumns">индекс столбца большего блока, с котрого нужно начать копирование
+        /// из большего блока в меньший</param>
+        /// <param name="endrows">индекс строки большего блока, которым нужно закончить копирование
+        /// из большего блока в меньший</param>
+        /// <param name="endcolumns">индекс столбца большего блока, которым нужно закончить копирование
+        /// из большего блока в меньший</param>
+        /// <returns>меньший блок, скопированный с части большего блока</returns>
+        public MyMatrix CopyWithIndex(int startrows, int startcolumns, int endrows, int endcolumns)
+        {
+            MyMatrix ans = new MyMatrix(endrows - startrows, endcolumns - startcolumns);
+            for (int i = startrows, ansi = 0; i < endrows; i++, ansi++)
+            {
+                for (int j = startcolumns, ansj = 0; j < endcolumns; j++, ansj++)
+                {
+                    ans.Matrix[ansi, ansj] = Matrix[i, j];
+                }
+            }
+            return ans;
+        }
+
+        /// <summary>
+        /// Метод копирования части матрицы, заданной по индексам строк и столбцов
+        /// из меньшего блока в больший        
+        /// </summary>        
+        /// <param name="ans">больший блок, в который будет скопирован меньшй блок</param>
+        /// <param name="startrows">индекс строки большего блока, с котрого нужно начать копирование
+        /// из меньшего блока в больший</param>   
+        /// <param name="startcolumns">индекс столбца большего блока, с котрого нужно начать копирование
+        /// из меньшего блока в больший</param>  
+        /// <param name="endrows">индекс строки большего блока, которым нужно закончить копирование
+        /// из меньшего блока в больший</param>  
+        /// <param name="endcolumns">индекс столбца большего блока, которым нужно закончить копирование
+        /// из меньшего блока в больший</param>  
+        /// <returns>больший блок со скопированным в нем малым блоком</returns>
+        public MyMatrix CopyWithIndexBack(MyMatrix ans, int startrows, int startcolumns, int endrows, int endcolumns)
+        {
+            for (int i = startrows, ansi = 0; i < endrows; i++, ansi++)
+            {
+                for (int j = startcolumns, ansj = 0; j < endcolumns; j++, ansj++)
+                {
+                    ans.Matrix[i, j] = Matrix[ansi, ansj];
+                }
+            }
+            return ans;
+        }
+
+        /// <summary>
+        /// Метод копирования матрицы целиком
+        /// </summary>
+        /// <param name="forcopy">матрица для копирования</param>
+        /// <returns>копированную матрицу</returns>
+        public MyMatrix Copy()
+        {
+            return new MyMatrix(Matrix);
+        }
+
+        /// <summary>
         /// Переопределенный метод ToString для возвращения строки, представляющей матрицу
         /// </summary>
-        /// <returns></returns>
+        /// <returns>строки, представляющяя матрицу</returns>
         public override string ToString()
         {
             string ans = "";
