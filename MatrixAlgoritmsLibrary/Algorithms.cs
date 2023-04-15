@@ -134,6 +134,7 @@ namespace MatrixAlgoritmsLibrary
             }
 
         }
+
         /// <summary>
         /// Функция умножения матриц методом Винограда
         /// </summary>
@@ -174,6 +175,7 @@ namespace MatrixAlgoritmsLibrary
             }
             return ans;
         }
+
         /// <summary>
         /// Функция умножения матриц методом четырёх русских
         /// </summary>
@@ -211,6 +213,48 @@ namespace MatrixAlgoritmsLibrary
             return c;
         }
 
+        public void Multiplication(MyMatrix first, MyMatrix second)
+        {
+            if (CheckMultiplicationExist(first, second))
+            {
+                MyMatrix res1 = ClassicMultiplication(first, second);
+                MyMatrix res4 = FourRussiansMultiplication(first, second);
+            }
+            else
+            {
+                if (first.IsSquare && second.IsSquare)
+                {
+                    if (CheckSameExist(first, second))
+                    {
+                        MyMatrix res2 = ShtrassenMultiplication(first, second);
+                    }
+                    else
+                    {
+                        MyMatrix res2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                    }
+                }
+                else
+                {
+                    first.ToSquare();
+                    second.ToSquare();
+
+                    if (CheckSameExist(first, second))
+                    {
+                        MyMatrix res2 = ShtrassenMultiplication(first, second);
+                    }
+                    else
+                    {
+                        MyMatrix res2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                    }
+                }
+            
+
+                
+                MyMatrix res3 = VinogradMultiplication(first, second);
+                MyMatrix res4 = FourRussiansMultiplication(first, second);
+            }
+
+        }
         #endregion
 
         #region actions with matrix
