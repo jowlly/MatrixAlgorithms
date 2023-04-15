@@ -88,7 +88,7 @@ namespace MatrixAlgoritmsLibrary
         }
         #endregion
 
-        #region Methods
+        #region methods
         /// <summary>
         /// Метод для представления неквадратной матрицы в виде квадратной (добавлением пустых элементов)
         /// </summary>

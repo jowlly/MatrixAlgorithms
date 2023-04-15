@@ -11,26 +11,33 @@ namespace MatrixAlgoritmsTest
     {
         static void Main(string[] args)
         {
-            MyMatrix matrix1 = new MyMatrix(4);
-            MyMatrix matrix2 = new MyMatrix(4);
+            MyMatrix matrix1 = new MyMatrix(3);
+            MyMatrix matrix2 = new MyMatrix(3);
             MyMatrix matrix3 = new MyMatrix(1, 2);
-            matrix1.FillMatrix(new float[4, 4]
+            matrix1.FillMatrix(new float[3, 3]
             {
-                { 1, 2, 3, 4},
-                { 3, 4, 3, 4},
-                { 3, 3, 3, 4},
-                { 1, 2, 1, 2 },
-            });
-
-            matrix2.FillMatrix(new float[4, 4]
-            {
-                { 1, 2, 1, 2 },
-                { 1, 2, 1, 2 },
-                { 1, 2, 1, 2 },
-                { 1, 2, 1, 2 },
+                { 1, 2, 3},
+                { 3, 4, 3},
+                { 3, 3, 3},
 
             });
+            //    { 1, 2, 3, 4},
+            //    { 3, 4, 3, 4},
+            //    { 3, 3, 3, 4},
+            //    { 1, 2, 1, 2 },
 
+            matrix2.FillMatrix(new float[3, 3]
+            {
+                { 1, 2, 1},
+                { 1, 2, 1},
+                { 1, 2, 1},
+
+
+            });
+            //    { 1, 2, 1, 2 },
+            //    { 1, 2, 1, 2 },
+            //    { 1, 2, 1, 2 },
+            //    { 1, 2, 1, 2 },
             matrix3.FillMatrix(new float[1, 2]
             {
                 { 2, 1 },
@@ -55,9 +62,11 @@ namespace MatrixAlgoritmsTest
 
             //Console.WriteLine(algorithms.Sum(matrix1, matrix3).ToString());
             //Console.WriteLine(matrix1.CopyWithIndex(0, 0,  2, 2));
-
-            Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
             
+            //Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
+            Console.WriteLine(algorithms.VinogradMultiplication(matrix1, matrix2).ToString());
+            
+
             Console.ReadKey();
 
         }
