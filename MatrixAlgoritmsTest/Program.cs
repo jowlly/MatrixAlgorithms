@@ -14,6 +14,7 @@ namespace MatrixAlgoritmsTest
             MyMatrix matrix1 = new MyMatrix(3);
             MyMatrix matrix2 = new MyMatrix(3);
             MyMatrix matrix3 = new MyMatrix(1, 2);
+            MyMatrix matrix4 = new MyMatrix(4, 4);
             matrix1.FillMatrix(new float[3, 3]
             {
                 { 1, 2, 3},
@@ -40,10 +41,17 @@ namespace MatrixAlgoritmsTest
             //    { 1, 2, 1, 2 },
             matrix3.FillMatrix(new float[1, 2]
             {
-                { 2, 1 },
+                { 0, 1 },
 
             });
 
+            matrix4.FillMatrix(new float[4, 4]
+            {
+               { 1, 1, 0, 1 },
+               { 1, 0, 1, 0 },
+                { 0, 0, 1, 0 },
+                { 1, 0, 0, 0 },
+            });
             //if (Algorithms.CheckMultiplicationExict(matrix1, matrix2))
             //{
             //    Console.WriteLine(Algorithms.NaiveMultiplication(matrix1, matrix2).ToString());
@@ -62,10 +70,12 @@ namespace MatrixAlgoritmsTest
 
             //Console.WriteLine(algorithms.Sum(matrix1, matrix3).ToString());
             //Console.WriteLine(matrix1.CopyWithIndex(0, 0,  2, 2));
-            
+
             //Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
-            Console.WriteLine(algorithms.VinogradMultiplication(matrix1, matrix2).ToString());
-            
+            //Console.WriteLine(algorithms.VinogradMultiplication(matrix1, matrix2).ToString());
+            //Console.WriteLine(algorithms.FourRussiansMultiplication(matrix1, matrix2).ToString());
+
+            //Console.WriteLine(algorithms.NewMatrixRows(matrix4,(int)Math.Log(matrix4.ColumnsCount, 2)).ToString());
 
             Console.ReadKey();
 

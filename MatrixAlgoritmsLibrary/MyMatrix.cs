@@ -122,6 +122,33 @@ namespace MatrixAlgoritmsLibrary
             return ans;
         }
 
+        public MyMatrix AddRow()
+        {
+            MyMatrix ans = new MyMatrix(RowsCount + 1, ColumnsCount);
+
+            for (int i = 0; i < RowsCount; i++)
+            {
+                for (int j = 0; j < ColumnsCount; j++)
+                {
+                    ans.Matrix[i, j] = Matrix[i, j];
+                }
+            }
+            return ans;
+        }
+
+        public MyMatrix AddColumn()
+        {
+            MyMatrix ans = new MyMatrix(RowsCount, ColumnsCount + 1);
+
+            for (int i = 0; i < RowsCount; i++)
+            {
+                for (int j = 0; j < ColumnsCount; j++)
+                {
+                    ans.Matrix[i, j] = Matrix[i, j];
+                }
+            }
+            return ans;
+        }
         /// <summary>
         /// Метод копирования части матрицы, заданной по индексам строк и столбцов
         /// из большего блока в меньший 

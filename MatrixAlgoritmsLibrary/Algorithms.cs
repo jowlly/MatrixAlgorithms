@@ -34,6 +34,23 @@ namespace MatrixAlgoritmsLibrary
         {
             return first.RowsCount == second.RowsCount && first.ColumnsCount == second.ColumnsCount;
         }
+
+        //public bool CheckBoolMatrix(MyMatrix matrix)
+        //{
+        //    for (int i = 0; i < matrix.RowsCount; i++)
+        //    {
+        //        for (int j = 0; j < matrix.ColumnsCount; j++)
+        //        {
+        //            int n = (int)matrix.Matrix[i, j];
+        //            if (n != 0 || n != 1)
+        //            {
+        //                return false;
+        //            }
+
+        //        }
+        //    }
+        //    return true;
+        //}
         #endregion
 
         #region algorithms multiplication
@@ -120,9 +137,9 @@ namespace MatrixAlgoritmsLibrary
         /// <summary>
         /// Функция умножения матриц методом Винограда
         /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
+        /// <param name="first">первая матрица</param>
+        /// <param name="second">вторая матрица</param>
+        /// <returns>матрицу, полученную в результате перемножения первой и второй матриц</returns>
         public MyMatrix VinogradMultiplication(MyMatrix first, MyMatrix second)
         {
             MyMatrix ans = new MyMatrix(first.RowsCount, second.ColumnsCount);
@@ -157,7 +174,42 @@ namespace MatrixAlgoritmsLibrary
             }
             return ans;
         }
+        /// <summary>
+        /// Функция умножения матриц методом четырёх русских
+        /// </summary>
+        /// <param name="first">первая матрица</param>
+        /// <param name="second">вторая матрица</param>
+        /// <returns>матрицу, полученную в результате перемножения первой и второй матриц</returns>
+        public MyMatrix FourRussiansMultiplication(MyMatrix first, MyMatrix second)
+        {
+            int k = (int)Math.Log(first.ColumnsCount, 2);
+            
+            while (first.ColumnsCount % k != 0) //если не получается разделить на целые части
+            {
+                first.AddColumn();
+                second.AddRow();
+            }
 
+            MyMatrix bin = new MyMatrix((int)Math.Pow(2, k), (int)Math.Pow(2, k));
+            bin = NewMatrixBin(bin, k);
+
+            MyMatrix a = NewMatrixRows(first, k);
+            MyMatrix b = NewMatrixColumns(second, k);
+            MyMatrix c = new MyMatrix(first.RowsCount, second.ColumnsCount);
+
+            for (int i = 0; i < first.RowsCount; i++)
+            {
+                for (int m = 0; m < second.ColumnsCount; m++)
+                {
+                    for (int n = 0; n < second.ColumnsCount / k; n++)
+                    {
+                        c.Matrix[i, m] += bin.Matrix[(int)a.Matrix[i, n], (int)b.Matrix[n, m]];
+                    }
+                    c.Matrix[i,m] = c.Matrix[i,m] % 2;
+                }
+            }
+            return c;
+        }
 
         #endregion
 
@@ -309,6 +361,99 @@ namespace MatrixAlgoritmsLibrary
         }
         #endregion
 
+        #region for FourRussians
+        /// <summary>
+        /// Функция создания новой матрицы путем деления каждой её строки на блоки размера k
+        /// </summary>
+        /// <param name="row">матрица для преобразований</param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public MyMatrix NewMatrixRows(MyMatrix row, int k)
+        {
+            MyMatrix ans = new MyMatrix(row.RowsCount, row.ColumnsCount / k);
+
+            for (int i = 0; i < row.RowsCount; i++)
+            {
+                int index = 0;
+                for (int m = 0; m < row.ColumnsCount; m += k)
+                {
+                    for (int n = 0; n < k; n++)
+                    {
+                        if (row.Matrix[i, m + n] == 1)
+                            ans.Matrix[i, index] += (int)Math.Pow(2, k - 1 - n);
+                        //00 = 0, 01 = 1, 10 = 2, 11 = 3 и тд.
+                    }
+                    index++;
+                }
+            }
+            return ans;
+        }
+
+        /// <summary>
+        /// Функция создания новой матрицы путем деления каждого её столбца на блоки размера k
+        /// </summary>
+        /// <param name="col">матрица для преобразований</param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        private MyMatrix NewMatrixColumns(MyMatrix col, int k)
+        {
+            MyMatrix ans = new MyMatrix(col.RowsCount / k, col.ColumnsCount);
+            for (int m = 0; m < col.ColumnsCount; m++)
+            {
+                int index = 0;
+                for (int i = 0; i < col.RowsCount; i += k)
+                {
+                    for (int n = 0; n < k; n++)
+                    {
+                        if (col.Matrix[i + n, m] == 1)
+                            ans.Matrix[index, m] += (int)Math.Pow(2, k - 1 - n);
+                        //00 = 0, 01 = 1, 10 = 2, 11 = 3 и тд.
+                    }
+                    index++;
+                }
+            }
+            return ans;
+        }
+        /// <summary>
+        /// Преподсчёт скалярных произведений
+        /// </summary>
+        /// <param name="number1"></param>
+        /// <param name="number2"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        int OneOrZero(int number1, int number2, int k)
+
+        {
+            int count = 0;
+            //побитовая конъюнкция чисел
+            int number = number1 & number2;
+            //количество единиц в бинарной записи
+            for (int i = 0; i < k; i++)
+            {
+                count += (number >> i) & 1;
+            }
+            return count % 2;
+        }
+        /// <summary>
+        /// Вспомогательная матрица для предподсчёта скалярных произведений
+        /// </summary>
+        /// <param name="resmatrix"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        private MyMatrix NewMatrixBin(MyMatrix resmatrix, int k)
+        {
+            int size = (int)Math.Pow(2, k);
+            //заполняем таблицу произведений всех возможных бинарных кусочков длины k
+            for (int i = 0; i < size; i++)
+            {
+                for (int m = 0; m < size; m++)
+                {
+                    resmatrix.Matrix[i, m] = OneOrZero(i, m, k);
+                }
+            }
+            return resmatrix;
+        }
+        #endregion
 
         #endregion
 
