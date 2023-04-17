@@ -74,7 +74,7 @@ namespace MatrixAlgoritmsTest
             //Console.WriteLine(algorithms.Sum(matrix1, matrix3).ToString());
             //Console.WriteLine(matrix1.CopyWithIndex(0, 0,  2, 2));
 
-            Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
+            //Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
             //Console.WriteLine(algorithms.VinogradMultiplication(matrix1, matrix2).ToString());
             //Console.WriteLine(algorithms.FourRussiansMultiplication(matrix1, matrix2).ToString());
 
@@ -85,11 +85,23 @@ namespace MatrixAlgoritmsTest
             MyMatrix res3 = new MyMatrix();
             MyMatrix res4 = new MyMatrix();
 
-            algorithms.Multiplication(matrix1, matrix2, out res1, out res2, out res3, out res4);
-            Console.WriteLine( "Итеративный алгоритм: \n"+ res1.ToString() + "\n" +
-                "Алгоритм Штрассена: \n" + res2.ToString() + "\n" +
-                "Алгоритм Винограда: \n" + res3.ToString() + "\n" +
-                "Алгоритм 4 русских: \n" + res4.ToString() + "\n"
+            double t1 = new double();
+            double t2 = new double();
+            double t3 = new double();
+            double t4 = new double();
+
+            MyMatrix matrixA = new MyMatrix();
+            MyMatrix matrixB = new MyMatrix();
+
+            matrixA = matrixA.CreateRandomSquareMatrix(10);
+            matrixB = matrixB.CreateRandomSquareMatrix(10);
+
+            algorithms.Multiplication(matrixA, matrixB, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
+
+            Console.WriteLine( "Итеративный алгоритм: " + t1 + " mlsec \n"+ res1.ToString() + "\n" +
+                "Алгоритм Штрассена:  " + t2 + " mlsec \n" + res2.ToString() + "\n" +
+                "Алгоритм Винограда:  " + t3 + " mlsec \n" + res3.ToString() + "\n" +
+                "Алгоритм 4 русских:  " + t4 + " mlsec \n" + res4.ToString() + "\n"
                 );
 
             Console.ReadKey();

@@ -277,7 +277,7 @@ namespace MatrixAlgoritmsLibrary
         }
 
         /// <summary>
-        /// 
+        /// функция, запускающая все алгоритмы с дополнительными дообразовниями, если требуется и замером времени
         /// </summary>
         /// <param name="first"></param>
         /// <param name="second"></param>
@@ -285,29 +285,70 @@ namespace MatrixAlgoritmsLibrary
         /// <param name="res2"></param>
         /// <param name="res3"></param>
         /// <param name="res4"></param>
-        public void Multiplication(MyMatrix first, MyMatrix second, out MyMatrix res1, out MyMatrix res2, out MyMatrix res3, out MyMatrix res4)
+        public void Multiplication(MyMatrix first, MyMatrix second, 
+            out MyMatrix res1, out MyMatrix res2, out MyMatrix res3, out MyMatrix res4,
+            out double restime1, out double restime2, out double restime3, out double restime4)
         {
             MyMatrix ans1 = new MyMatrix();
             MyMatrix ans2 = new MyMatrix();
             MyMatrix ans3 = new MyMatrix();
             MyMatrix ans4 = new MyMatrix();
 
+            Stopwatch stopwatch1 = new Stopwatch();
+            Stopwatch stopwatch2 = new Stopwatch();
+            Stopwatch stopwatch3 = new Stopwatch();
+            Stopwatch stopwatch4 = new Stopwatch();
+
+            double time1 = new double();
+            double time2 = new double();
+            double time3 = new double();
+            double time4 = new double();
+
             if (CheckMultiplicationExist(first, second)) //любая матрица на любую матрицу, если умножение возможно
             {
+                stopwatch1.Start();
+
                 ans1 = ClassicMultiplication(first, second);
+
+                stopwatch1.Stop();
+                time1 = stopwatch1.Elapsed.TotalMilliseconds;
+
+                stopwatch3.Start();
+
                 ans3 = VinogradMultiplication(first, second);
-                ans4 = FourRussiansMultiplication(first, second);
-            
+
+                stopwatch3.Stop();
+                time3 = stopwatch3.Elapsed.TotalMilliseconds;
+
+                
+                stopwatch4.Start();
+
+                ans4 = FourRussiansMultiplication(first.ToOneZero(), second.ToOneZero());
+
+                stopwatch4.Stop();
+                time4 = stopwatch4.Elapsed.TotalMilliseconds;
+
                 if (first.IsSquare && second.IsSquare) //обе матрицы квадратные
                 {
                     if (CheckSameExist(first, second) && IsPowOfTwo(first.ColumnsCount)) //у матриц общий одинаковый порядок, который является степенью двойки
                     {
+                        
+                        stopwatch2.Start();
+
                         ans2 = ShtrassenMultiplication(first, second);
+
+                        stopwatch2.Stop();
+                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
                     }
 
                     else
                     {
+                        stopwatch2.Start();
+
                         ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+
+                        stopwatch2.Stop();
+                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
                     }
                 }
                 else
@@ -317,11 +358,21 @@ namespace MatrixAlgoritmsLibrary
                     second.ToSquare();
                     if (CheckSameExist(first, second) && IsPowOfTwo(first.ColumnsCount))
                     {
+                        stopwatch2.Start();
+
                         ans2 = ShtrassenMultiplication(first, second);
+
+                        stopwatch2.Stop();
+                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
                     }
                     else
                     {
+                        stopwatch2.Start();
+
                         ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+
+                        stopwatch2.Stop();
+                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
                     }
                 }
             }
@@ -337,6 +388,11 @@ namespace MatrixAlgoritmsLibrary
             res2 = ans2;
             res3 = ans3;
             res4 = ans4;
+
+            restime1 = time1;
+            restime2 = time2;
+            restime3 = time3;
+            restime4 = time4;
         }
 
         #endregion

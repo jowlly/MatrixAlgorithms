@@ -49,33 +49,16 @@ namespace WindowsFormsMatrixAlgoritms
         {
             List<MyMatrix> matrixList = new List<MyMatrix>();
             int start = step;
+
+            MyMatrix ans = new MyMatrix();
+
             for (int i = start; i < maxMatrixOrder; i*=step)
             {
-                matrixList.Add(CreateSquareRandomMatrix(i));
+                matrixList.Add(ans.CreateRandomSquareMatrix(i));
             }
             return matrixList;
         }
 
-        /// <summary>
-        /// Функция создания рандомной квадратной матрицы
-        /// </summary>
-        /// <param name="order">порядок квадратной матрицы</param>
-        /// <returns>созданную матрицу</returns>
-        private MyMatrix CreateSquareRandomMatrix(int order)
-        {
-            Random random = new Random();
-            MyMatrix matrix = new MyMatrix(order);
 
-            for (int i = 0; i < matrix.RowsCount; i++)
-            {
-                for (int j = 0; j < matrix.ColumnsCount; j++)
-                {
-                    matrix.Matrix[i, j] = random.Next(0, 100);
-                }
-            }
-
-            return matrix;
-
-        }
     }
 }
