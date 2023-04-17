@@ -34,23 +34,17 @@ namespace MatrixAlgoritmsLibrary
         {
             return first.RowsCount == second.RowsCount && first.ColumnsCount == second.ColumnsCount;
         }
+        /// <summary>
+        /// Проверка на то, является ли заданное число степенью двойки
+        /// </summary>
+        /// <param name="n">заданное число</param>
+        /// <returns>true - если да, false - если нет</returns>
+        private bool IsPowOfTwo(int n)
+        {
+            double log = Math.Log(n, 2);
+            return (log - Math.Truncate(log) == 0);
+        }
 
-        //public bool CheckBoolMatrix(MyMatrix matrix)
-        //{
-        //    for (int i = 0; i < matrix.RowsCount; i++)
-        //    {
-        //        for (int j = 0; j < matrix.ColumnsCount; j++)
-        //        {
-        //            int n = (int)matrix.Matrix[i, j];
-        //            if (n != 0 || n != 1)
-        //            {
-        //                return false;
-        //            }
-
-        //        }
-        //    }
-        //    return true;
-        //}
         #endregion
 
         #region algorithms multiplication
@@ -118,7 +112,7 @@ namespace MatrixAlgoritmsLibrary
                 //рассчёт по формулам
                 MyMatrix d1 = ShtrassenMultiplication(Sum(a11, a22), Sum(b11, b22));
                 MyMatrix d2 = ShtrassenMultiplication(Sum(a21, a22), b11);
-                MyMatrix d3 = ShtrassenMultiplication(a11, Subscrtract(b11, b22));
+                MyMatrix d3 = ShtrassenMultiplication(a11, Subscrtract(b12, b22));
                 MyMatrix d4 = ShtrassenMultiplication(a22, Subscrtract(b21, b11));
                 MyMatrix d5 = ShtrassenMultiplication(Sum(a11, a12), b22);
                 MyMatrix d6 = ShtrassenMultiplication(Subscrtract(a21, a11), Sum(b11, b12));
@@ -213,48 +207,69 @@ namespace MatrixAlgoritmsLibrary
             return c;
         }
 
-        public void Multiplication(MyMatrix first, MyMatrix second)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <param name="res1"></param>
+        /// <param name="res2"></param>
+        /// <param name="res3"></param>
+        /// <param name="res4"></param>
+        public void Multiplication(MyMatrix first, MyMatrix second, out MyMatrix res1, out MyMatrix res2, out MyMatrix res3, out MyMatrix res4)
         {
-            if (CheckMultiplicationExist(first, second))
+            MyMatrix ans1 = new MyMatrix();
+            MyMatrix ans2 = new MyMatrix();
+            MyMatrix ans3 = new MyMatrix();
+            MyMatrix ans4 = new MyMatrix();
+
+            if (CheckMultiplicationExist(first, second)) //любая матрица на любую матрицу, если умножение возможно
             {
-                MyMatrix res1 = ClassicMultiplication(first, second);
-                MyMatrix res4 = FourRussiansMultiplication(first, second);
-            }
-            else
-            {
-                if (first.IsSquare && second.IsSquare)
+                ans1 = ClassicMultiplication(first, second);
+                ans3 = VinogradMultiplication(first, second);
+                ans4 = FourRussiansMultiplication(first, second);
+            
+                if (first.IsSquare && second.IsSquare) //обе матрицы квадратные
                 {
-                    if (CheckSameExist(first, second))
+                    if (CheckSameExist(first, second) && IsPowOfTwo(first.ColumnsCount)) //у матриц общий одинаковый порядок, который является степенью двойки
                     {
-                        MyMatrix res2 = ShtrassenMultiplication(first, second);
+                        ans2 = ShtrassenMultiplication(first, second);
                     }
+
                     else
                     {
-                        MyMatrix res2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                        ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
                     }
                 }
                 else
                 {
+
                     first.ToSquare();
                     second.ToSquare();
-
-                    if (CheckSameExist(first, second))
+                    if (CheckSameExist(first, second) && IsPowOfTwo(first.ColumnsCount))
                     {
-                        MyMatrix res2 = ShtrassenMultiplication(first, second);
+                        ans2 = ShtrassenMultiplication(first, second);
                     }
                     else
                     {
-                        MyMatrix res2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                        ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
                     }
                 }
-            
-
-                
-                MyMatrix res3 = VinogradMultiplication(first, second);
-                MyMatrix res4 = FourRussiansMultiplication(first, second);
+            }
+            else
+            {
+                ans1 = new MyMatrix();
+                ans2 = new MyMatrix();
+                ans3 = new MyMatrix();
+                ans4 = new MyMatrix();
             }
 
+            res1 = ans1;
+            res2 = ans2;
+            res3 = ans3;
+            res4 = ans4;
         }
+
         #endregion
 
         #region actions with matrix

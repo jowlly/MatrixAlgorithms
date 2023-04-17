@@ -11,29 +11,32 @@ namespace MatrixAlgoritmsTest
     {
         static void Main(string[] args)
         {
-            MyMatrix matrix1 = new MyMatrix(3);
-            MyMatrix matrix2 = new MyMatrix(3);
+            MyMatrix matrix1 = new MyMatrix(4);
+            MyMatrix matrix2 = new MyMatrix(4);
             MyMatrix matrix3 = new MyMatrix(1, 2);
             MyMatrix matrix4 = new MyMatrix(4, 4);
-            matrix1.FillMatrix(new float[3, 3]
+            matrix1.FillMatrix(new float[4, 4]
             {
-                { 1, 2, 3},
-                { 3, 4, 3},
-                { 3, 3, 3},
+                { 1, 2, 3, 0},
+                { 3, 4, 3, 0},
+                { 3, 3, 3, 0},
+                { 0, 0, 0, 0},
 
             });
             //    { 1, 2, 3, 4},
             //    { 3, 4, 3, 4},
             //    { 3, 3, 3, 4},
             //    { 1, 2, 1, 2 },
+            //    { 1, 2, 3},
+            //    { 3, 4, 3},
+            //    { 3, 3, 3},
 
-            matrix2.FillMatrix(new float[3, 3]
+            matrix2.FillMatrix(new float[4, 4]
             {
-                { 1, 2, 1},
-                { 1, 2, 1},
-                { 1, 2, 1},
-
-
+                { 1, 2, 1, 0},
+                { 1, 2, 1, 0},
+                { 1, 2, 1, 0},
+                { 0, 0, 0, 0},
             });
             //    { 1, 2, 1, 2 },
             //    { 1, 2, 1, 2 },
@@ -71,11 +74,23 @@ namespace MatrixAlgoritmsTest
             //Console.WriteLine(algorithms.Sum(matrix1, matrix3).ToString());
             //Console.WriteLine(matrix1.CopyWithIndex(0, 0,  2, 2));
 
-            //Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
+            Console.WriteLine(algorithms.ShtrassenMultiplication(matrix1, matrix2).ToString());
             //Console.WriteLine(algorithms.VinogradMultiplication(matrix1, matrix2).ToString());
             //Console.WriteLine(algorithms.FourRussiansMultiplication(matrix1, matrix2).ToString());
 
             //Console.WriteLine(algorithms.NewMatrixRows(matrix4,(int)Math.Log(matrix4.ColumnsCount, 2)).ToString());
+
+            MyMatrix res1 = new MyMatrix();
+            MyMatrix res2 = new MyMatrix();
+            MyMatrix res3 = new MyMatrix();
+            MyMatrix res4 = new MyMatrix();
+
+            algorithms.Multiplication(matrix1, matrix2, out res1, out res2, out res3, out res4);
+            Console.WriteLine( "Итеративный алгоритм: \n"+ res1.ToString() + "\n" +
+                "Алгоритм Штрассена: \n" + res2.ToString() + "\n" +
+                "Алгоритм Винограда: \n" + res3.ToString() + "\n" +
+                "Алгоритм 4 русских: \n" + res4.ToString() + "\n"
+                );
 
             Console.ReadKey();
 
