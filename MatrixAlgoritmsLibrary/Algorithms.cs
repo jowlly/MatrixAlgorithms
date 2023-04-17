@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,18 @@ namespace MatrixAlgoritmsLibrary
     /// </summary>
     public class Algorithms
     {
+        private MyMatrix classicResult;
+        public MyMatrix ClassicResult { get => classicResult; set => classicResult = value; }
+
+        private MyMatrix shtrassenResult;
+        public MyMatrix ShtrassenResult { get => shtrassenResult; set => shtrassenResult = value; }
+
+        private MyMatrix vinogradResult;
+        public MyMatrix VinogradResult { get => vinogradResult; set => vinogradResult = value; }
+
+        private MyMatrix fourrussiansResult;
+        public MyMatrix FourRussiansResult { get => fourrussiansResult; set => fourrussiansResult = value; }
+
         #region check for operation
         /// <summary>
         /// Проверка на возможность перемножения матриц:
@@ -48,6 +61,57 @@ namespace MatrixAlgoritmsLibrary
         #endregion
 
         #region algorithms multiplication
+
+        public double ClassicTimer(MyMatrix first, MyMatrix second)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            ClassicResult = ClassicMultiplication(first,second);
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        public double ShtrassenTimer(MyMatrix first, MyMatrix second)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            ShtrassenResult = ShtrassenMultiplication(first, second);
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed.TotalSeconds;
+        }
+
+        public double VinogradTimer(MyMatrix first, MyMatrix second)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            VinogradResult = VinogradMultiplication(first, second);
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed.TotalSeconds;
+        }
+
+        public double FourRussiansTimer(MyMatrix first, MyMatrix second)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            FourRussiansResult = FourRussiansMultiplication(first, second);
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed.TotalSeconds;
+        }
+
+
+
 
         /// <summary>
         /// Итеративный алгоритм умножения матриц. Сложность О(n^3)
@@ -137,16 +201,21 @@ namespace MatrixAlgoritmsLibrary
         /// <returns>матрицу, полученную в результате перемножения первой и второй матриц</returns>
         public MyMatrix VinogradMultiplication(MyMatrix first, MyMatrix second)
         {
+            int del = first.ColumnsCount / 2;
             MyMatrix ans = new MyMatrix(first.RowsCount, second.ColumnsCount);
             //𝐶𝑖,𝑗 = A𝑖(1×n) ∗ B𝑗(n×1) = (𝑎1 + 𝑏2) ∗ (𝑎2 + 𝑏1) + (𝑎3 + 𝑏4) ∗ (𝑎4 + 𝑏3) + A𝑖(n×4) + B𝑗(n×1)
             for (int i = 0; i < first.RowsCount; i++)
             {
+                float[] rows = RowsChange(first, i + 1);
+
                 for (int j = 0; j < second.ColumnsCount; j++)
                 {
+                    
+                    float[] columns = ColumnsChange(second, j + 1);
                     //поэлементно вносим в матрицу значения с вынесенным за пределы функций отрицанием
-                    ans.Matrix[i, j] = - RowsChange(first, i+1)[i] - ColumnsChange(second, j+1)[j];
+                    ans.Matrix[i, j] = -rows[i] - columns[j];
 
-                    for (int k = 0; k < first.ColumnsCount / 2; k++)
+                    for (int k = 0; k < del; k++)
                     {
                         //поэлементно перемножаем матрицы и вносим эти значения
                         //𝐶𝑖,𝑗 = A𝑖(1×n) ∗ B𝑗(n×1) = (𝑎1 + 𝑏2) ∗ (𝑎2 + 𝑏1) + (𝑎3 + 𝑏4) ∗ (𝑎4 + 𝑏3) + ...(𝑎n-1 + 𝑏n) ∗ (𝑎n + 𝑏n-1)... + A𝑖(n×4) + B𝑗(n×1)
