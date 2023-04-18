@@ -681,12 +681,16 @@ namespace MatrixAlgoritmsLibrary
         private int GetCommonOrderPowTwo(MyMatrix first, MyMatrix second)
         {
             int order = GetCommonOrder(first, second);
-            double i = 1;
+            double i = 2;
+
+       
             while (order > Math.Pow(i, 2))
             {
-                i++;
+               i *= 2;
             }
-            return (int)Math.Pow(i, 2);
+
+           return (int)i;
+
         }
         #endregion
 

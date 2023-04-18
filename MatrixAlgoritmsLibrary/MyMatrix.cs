@@ -112,9 +112,9 @@ namespace MatrixAlgoritmsLibrary
         {
             MyMatrix ans = new MyMatrix(order);
 
-            for (int i = 0; i < RowsCount; i++)
+            for (int i = 0; i < ans.RowsCount; i++)
             {
-                for (int j = 0; j < ColumnsCount; j++)
+                for (int j = 0; j < ans.ColumnsCount; j++)
                 {
                     ans.Matrix[i, j] = Matrix[i, j];
                 }
@@ -130,9 +130,9 @@ namespace MatrixAlgoritmsLibrary
             int order = Math.Max(ColumnsCount, RowsCount);
             MyMatrix ans = new MyMatrix(order);
             
-            for (int i = 0; i < RowsCount; i++)
+            for (int i = 0; i < ans.RowsCount; i++)
             {
-                for (int j = 0; j < ColumnsCount; j++)
+                for (int j = 0; j < ans.ColumnsCount; j++)
                 {
                     if (Matrix[i, j] != 0 )
                     {
@@ -151,9 +151,9 @@ namespace MatrixAlgoritmsLibrary
         {
             MyMatrix ans = new MyMatrix(RowsCount + 1, ColumnsCount);
 
-            for (int i = 0; i < RowsCount; i++)
+            for (int i = 0; i < ans.RowsCount; i++)
             {
-                for (int j = 0; j < ColumnsCount; j++)
+                for (int j = 0; j < ans.ColumnsCount; j++)
                 {
                     ans.Matrix[i, j] = Matrix[i, j];
                 }
@@ -165,9 +165,9 @@ namespace MatrixAlgoritmsLibrary
         {
             MyMatrix ans = new MyMatrix(RowsCount, ColumnsCount + 1);
 
-            for (int i = 0; i < RowsCount; i++)
+            for (int i = 0; i < ans.RowsCount; i++)
             {
-                for (int j = 0; j < ColumnsCount; j++)
+                for (int j = 0; j < ans.ColumnsCount; j++)
                 {
                     ans.Matrix[i, j] = Matrix[i, j];
                 }
