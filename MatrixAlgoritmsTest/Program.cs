@@ -93,8 +93,8 @@ namespace MatrixAlgoritmsTest
             MyMatrix matrixA = new MyMatrix();
             MyMatrix matrixB = new MyMatrix();
 
-            matrixA = matrixA.CreateRandomSquareMatrix(100);
-            matrixB = matrixB.CreateRandomSquareMatrix(100);
+            matrixA = matrixA.CreateRandomSquareMatrix(16);
+            matrixB = matrixB.CreateRandomSquareMatrix(16);
 
             algorithms.Multiplication(matrixA, matrixB, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
 

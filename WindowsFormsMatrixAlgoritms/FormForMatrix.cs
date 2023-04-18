@@ -59,6 +59,33 @@ namespace WindowsFormsMatrixAlgoritms
             return matrixList;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int orderF = int.Parse(textBoxFirstMatrix.Text);
+            int orderS = int.Parse(textBoxSecondMatrix.Text);
+            MyMatrix first = new MyMatrix();
+            MyMatrix second = new MyMatrix();
 
+            MyMatrix res1 = new MyMatrix();
+            MyMatrix res2 = new MyMatrix();
+            MyMatrix res3 = new MyMatrix();
+            MyMatrix res4 = new MyMatrix();
+
+            double t1 = new double();
+            double t2 = new double();
+            double t3 = new double();
+            double t4 = new double();
+
+            first = first.CreateRandomSquareMatrix(orderF);
+            second = second.CreateRandomSquareMatrix(orderS);
+
+            Algorithms algorithms = new Algorithms();
+            algorithms.Multiplication(first, second, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
+
+            textBox1.Text = t1.ToString();
+            textBox2.Text = t2.ToString();
+            textBox3.Text = t3.ToString();
+            textBox4.Text = t4.ToString();
+        }
     }
 }
