@@ -323,10 +323,10 @@ namespace MatrixAlgoritmsLibrary
                 
                 stopwatch4.Start();
 
-                ans4 = FourRussiansMultiplication(first.ToOneZero(), second.ToOneZero());
+                //ans4 = FourRussiansMultiplication(first.ToOneZero(), second.ToOneZero());
 
-                stopwatch4.Stop();
-                time4 = stopwatch4.Elapsed.TotalMilliseconds;
+                //stopwatch4.Stop();
+                //time4 = stopwatch4.Elapsed.TotalMilliseconds;
 
                 if (first.IsSquare && second.IsSquare) //обе матрицы квадратные
                 {
