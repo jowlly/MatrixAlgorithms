@@ -110,9 +110,6 @@ namespace MatrixAlgoritmsLibrary
             return stopwatch.Elapsed.TotalSeconds;
         }
 
-
-
-
         /// <summary>
         /// Итеративный алгоритм умножения матриц. Сложность О(n^3)
         /// </summary>
@@ -156,7 +153,7 @@ namespace MatrixAlgoritmsLibrary
             else
             {
                 //деление на два блока
-                n = n / 2;
+                n /= 2;
 
                 MyMatrix a11 = new MyMatrix(n);
                 MyMatrix a12 = new MyMatrix(n);
@@ -203,15 +200,15 @@ namespace MatrixAlgoritmsLibrary
         {
             int del = first.ColumnsCount / 2;
             MyMatrix ans = new MyMatrix(first.RowsCount, second.ColumnsCount);
+
+            float[] rows = RowsChange(first, first.RowsCount, del);
+            float[] columns = ColumnsChange(second, second.ColumnsCount, del);
+
             //𝐶𝑖,𝑗 = A𝑖(1×n) ∗ B𝑗(n×1) = (𝑎1 + 𝑏2) ∗ (𝑎2 + 𝑏1) + (𝑎3 + 𝑏4) ∗ (𝑎4 + 𝑏3) + A𝑖(n×4) + B𝑗(n×1)
             for (int i = 0; i < first.RowsCount; i++)
             {
-                float[] rows = RowsChange(first, i + 1);
-
                 for (int j = 0; j < second.ColumnsCount; j++)
                 {
-                    
-                    float[] columns = ColumnsChange(second, j + 1);
                     //поэлементно вносим в матрицу значения с вынесенным за пределы функций отрицанием
                     ans.Matrix[i, j] = -rows[i] - columns[j];
 
@@ -251,8 +248,8 @@ namespace MatrixAlgoritmsLibrary
             
             while (first.ColumnsCount % k != 0) //если не получается разделить на целые части
             {
-                first.AddColumn();
-                second.AddRow();
+                first = first.AddColumn();
+                second = second.AddRow();
             }
 
             MyMatrix bin = new MyMatrix((int)Math.Pow(2, k), (int)Math.Pow(2, k));
@@ -311,22 +308,24 @@ namespace MatrixAlgoritmsLibrary
                 ans1 = ClassicMultiplication(first, second);
 
                 stopwatch1.Stop();
-                time1 = stopwatch1.Elapsed.TotalMilliseconds;
+                //time1 = stopwatch1.Elapsed.TotalMilliseconds;
+                time1 = stopwatch1.Elapsed.TotalSeconds;
 
                 stopwatch3.Start();
 
                 ans3 = VinogradMultiplication(first, second);
 
                 stopwatch3.Stop();
-                time3 = stopwatch3.Elapsed.TotalMilliseconds;
+                //time3 = stopwatch3.Elapsed.TotalMilliseconds;
+                time3 = stopwatch3.Elapsed.TotalSeconds;
 
-                
                 stopwatch4.Start();
 
-                //ans4 = FourRussiansMultiplication(first.ToOneZero(), second.ToOneZero());
+                ans4 = FourRussiansMultiplication(first.ToOneZero(), second.ToOneZero());
 
-                //stopwatch4.Stop();
+                stopwatch4.Stop();
                 //time4 = stopwatch4.Elapsed.TotalMilliseconds;
+                time4 = stopwatch4.Elapsed.TotalSeconds;
 
                 if (first.IsSquare && second.IsSquare) //обе матрицы квадратные
                 {
@@ -338,7 +337,8 @@ namespace MatrixAlgoritmsLibrary
                         ans2 = ShtrassenMultiplication(first, second);
 
                         stopwatch2.Stop();
-                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        //time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
 
                     else
@@ -348,7 +348,8 @@ namespace MatrixAlgoritmsLibrary
                         ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
 
                         stopwatch2.Stop();
-                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        //time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
                 }
                 else
@@ -363,7 +364,8 @@ namespace MatrixAlgoritmsLibrary
                         ans2 = ShtrassenMultiplication(first, second);
 
                         stopwatch2.Stop();
-                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        //time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
                     else
                     {
@@ -372,7 +374,8 @@ namespace MatrixAlgoritmsLibrary
                         ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
 
                         stopwatch2.Stop();
-                        time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        //time2 = stopwatch2.Elapsed.TotalMilliseconds;
+                        time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
                 }
             }
@@ -503,12 +506,12 @@ namespace MatrixAlgoritmsLibrary
         /// <param name="matrix">матрица, из которой нужно преобразовать строку</param>
         /// <param name="cRows">индекс преобразуемой строки матрицы</param>
         /// <returns>массив, содержащий преобразованную строку</returns>
-        public float[] RowsChange(MyMatrix matrix, int cRows)
+        public float[] RowsChange(MyMatrix matrix, int cRows, int del)
         {             
             float[] ans = new float[cRows];
             for (int i = 0; i < cRows; i++)
             {
-                for (int j = 0; j < matrix.ColumnsCount/2; j++)
+                for (int j = 0; j < del; j++)
                 {
                     ans[i] += matrix.Matrix[i, 2 * j] * matrix.Matrix[i, 2 * j + 1];
                 }
@@ -531,12 +534,12 @@ namespace MatrixAlgoritmsLibrary
         /// <param name="matrix">матрица, из которой нужно преобразовать столбец</param>
         /// <param name="cColumns">индекс преобразуемого столбца матрицы</param>
         /// <returns>массив, содержащий преобразованный столбец</returns>
-        public float[] ColumnsChange(MyMatrix matrix, int cColumns)
+        public float[] ColumnsChange(MyMatrix matrix, int cColumns, int del)
         {
             float[] ans = new float[cColumns];
             for (int i = 0; i < cColumns; i++)
             {
-                for (int j = 0; j < matrix.ColumnsCount / 2; j++)        
+                for (int j = 0; j < del; j++)        
                 {
                     ans[i] += matrix.Matrix[2 * j, i] * matrix.Matrix[2 * j + 1, i];
                 }
@@ -681,15 +684,13 @@ namespace MatrixAlgoritmsLibrary
         private int GetCommonOrderPowTwo(MyMatrix first, MyMatrix second)
         {
             int order = GetCommonOrder(first, second);
-            double i = 2;
-
-       
-            while (order > Math.Pow(i, 2))
+            int i = 2;
+            while (order > i)
             {
                i *= 2;
             }
 
-           return (int)i;
+           return i;
 
         }
         #endregion

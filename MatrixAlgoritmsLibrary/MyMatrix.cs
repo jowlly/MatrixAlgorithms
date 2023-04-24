@@ -112,9 +112,9 @@ namespace MatrixAlgoritmsLibrary
         {
             MyMatrix ans = new MyMatrix(order);
 
-            for (int i = 0; i < ans.RowsCount; i++)
+            for (int i = 0; i < RowsCount; i++)
             {
-                for (int j = 0; j < ans.ColumnsCount; j++)
+                for (int j = 0; j < ColumnsCount; j++)
                 {
                     ans.Matrix[i, j] = Matrix[i, j];
                 }
@@ -122,7 +122,8 @@ namespace MatrixAlgoritmsLibrary
             return ans;
         }
         /// <summary>
-        /// 
+        /// Функция, которая числовую матрицу предоставляет в виде матрицы из нулей и единиц
+        /// (заменя цифры на единицы, нули оставляя нулями)
         /// </summary>
         /// <returns></returns>
         public MyMatrix ToOneZero()
@@ -151,7 +152,7 @@ namespace MatrixAlgoritmsLibrary
         {
             MyMatrix ans = new MyMatrix(RowsCount + 1, ColumnsCount);
 
-            for (int i = 0; i < ans.RowsCount; i++)
+            for (int i = 0; i < ans.RowsCount - 1; i++)
             {
                 for (int j = 0; j < ans.ColumnsCount; j++)
                 {
@@ -167,7 +168,7 @@ namespace MatrixAlgoritmsLibrary
 
             for (int i = 0; i < ans.RowsCount; i++)
             {
-                for (int j = 0; j < ans.ColumnsCount; j++)
+                for (int j = 0; j < ans.ColumnsCount - 1; j++)
                 {
                     ans.Matrix[i, j] = Matrix[i, j];
                 }
@@ -251,7 +252,7 @@ namespace MatrixAlgoritmsLibrary
             {
                 for (int j = 0; j < ans.ColumnsCount; j++)
                 {
-                    ans.Matrix[i, j] = random.Next(0, 100);
+                    ans.Matrix[i, j] = random.Next(0, 5);
                 }
             }
             return ans;

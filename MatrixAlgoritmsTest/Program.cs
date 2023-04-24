@@ -93,16 +93,26 @@ namespace MatrixAlgoritmsTest
             MyMatrix matrixA = new MyMatrix();
             MyMatrix matrixB = new MyMatrix();
 
-            matrixA = matrixA.CreateRandomSquareMatrix(16);
-            matrixB = matrixB.CreateRandomSquareMatrix(16);
+            matrixA = matrixA.CreateRandomSquareMatrix(5);
+            matrixB = matrixB.CreateRandomSquareMatrix(5);
+            Console.WriteLine("Первая матрица: \n" + matrixA.ToString() + "\n" +
+               "Второая матрица: \n" + matrixB.ToString() + "\n");
 
-            algorithms.Multiplication(matrixA, matrixB, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
+
+           algorithms.Multiplication(matrixA, matrixB, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
 
             Console.WriteLine( "Итеративный алгоритм: " + t1 + " mlsec \n"+ res1.ToString() + "\n" +
                 "Алгоритм Штрассена:  " + t2 + " mlsec \n" + res2.ToString() + "\n" +
                 "Алгоритм Винограда:  " + t3 + " mlsec \n" + res3.ToString() + "\n" +
                 "Алгоритм 4 русских:  " + t4 + " mlsec \n" + res4.ToString() + "\n"
                 );
+
+            Console.WriteLine( "Итеративный алгоритм: " + t1 + " mlsec \n"+  "\n" +
+                "Алгоритм Штрассена:  " + t2 + " mlsec \n"  + "\n" +
+                "Алгоритм Винограда:  " + t3 + " mlsec \n"  + "\n" +
+                "Алгоритм 4 русских:  " + t4 + " mlsec \n"  + "\n"
+                );
+
 
             Console.ReadKey();
 
