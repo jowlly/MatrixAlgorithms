@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MatrixAlgoritmsTest
@@ -80,6 +81,7 @@ namespace MatrixAlgoritmsTest
 
             //Console.WriteLine(algorithms.NewMatrixRows(matrix4,(int)Math.Log(matrix4.ColumnsCount, 2)).ToString());
 
+
             MyMatrix res1 = new MyMatrix();
             MyMatrix res2 = new MyMatrix();
             MyMatrix res3 = new MyMatrix();
@@ -90,27 +92,31 @@ namespace MatrixAlgoritmsTest
             double t3 = new double();
             double t4 = new double();
 
-            MyMatrix matrixA = new MyMatrix();
-            MyMatrix matrixB = new MyMatrix();
 
-            matrixA = matrixA.CreateRandomSquareMatrix(5);
-            matrixB = matrixB.CreateRandomSquareMatrix(5);
+            int n = 64;
+
+            MyMatrix matrixA = new MyMatrix();
+            matrixA = matrixA.CreateRandomSquareMatrix(n);
+            Thread.Sleep(5);
+            MyMatrix matrixB = new MyMatrix();
+            matrixB = matrixB.CreateRandomSquareMatrix(n);
+
             Console.WriteLine("Первая матрица: \n" + matrixA.ToString() + "\n" +
                "Второая матрица: \n" + matrixB.ToString() + "\n");
 
 
            algorithms.Multiplication(matrixA, matrixB, out res1, out res2, out res3, out res4, out t1, out t2, out t3, out t4);
 
-            Console.WriteLine( "Итеративный алгоритм: " + t1 + " mlsec \n"+ res1.ToString() + "\n" +
-                "Алгоритм Штрассена:  " + t2 + " mlsec \n" + res2.ToString() + "\n" +
-                "Алгоритм Винограда:  " + t3 + " mlsec \n" + res3.ToString() + "\n" +
-                "Алгоритм 4 русских:  " + t4 + " mlsec \n" + res4.ToString() + "\n"
+            Console.WriteLine( "Итеративный алгоритм: " + t1 + " sec \n"+ res1.ToString() + "\n" +
+                "Алгоритм Штрассена:  " + t2 + " sec \n" + res2.ToString() + "\n" +
+                "Алгоритм Винограда:  " + t3 + " sec \n" + res3.ToString() + "\n" +
+                "Алгоритм 4 русских:  " + t4 + " sec \n" + res4.ToString() + "\n"
                 );
 
-            Console.WriteLine( "Итеративный алгоритм: " + t1 + " mlsec \n"+  "\n" +
-                "Алгоритм Штрассена:  " + t2 + " mlsec \n"  + "\n" +
-                "Алгоритм Винограда:  " + t3 + " mlsec \n"  + "\n" +
-                "Алгоритм 4 русских:  " + t4 + " mlsec \n"  + "\n"
+            Console.WriteLine( "Итеративный алгоритм: " + t1 + " sec \n"+  "\n" +
+                "Алгоритм Штрассена:  " + t2 + " sec \n"  + "\n" +
+                "Алгоритм Винограда:  " + t3 + " sec \n"  + "\n" +
+                "Алгоритм 4 русских:  " + t4 + " sec \n"  + "\n"
                 );
 
 

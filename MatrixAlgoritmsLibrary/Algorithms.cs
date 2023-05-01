@@ -60,18 +60,18 @@ namespace MatrixAlgoritmsLibrary
 
         #endregion
 
-        #region algorithms multiplication
+        #region timers
 
         public double ClassicTimer(MyMatrix first, MyMatrix second)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            ClassicResult = ClassicMultiplication(first,second);
+            ClassicResult = ClassicMultiplication(first, second);
 
             stopwatch.Stop();
 
-            return stopwatch.Elapsed.TotalMilliseconds;
+            return stopwatch.Elapsed.TotalSeconds;
         }
 
         public double ShtrassenTimer(MyMatrix first, MyMatrix second)
@@ -109,6 +109,10 @@ namespace MatrixAlgoritmsLibrary
 
             return stopwatch.Elapsed.TotalSeconds;
         }
+        #endregion 
+
+        #region algorithms multiplication
+
 
         /// <summary>
         /// Итеративный алгоритм умножения матриц. Сложность О(n^3)
@@ -343,11 +347,15 @@ namespace MatrixAlgoritmsLibrary
 
                     else
                     {
+                        MyMatrix newfirst = ToBalance(first, second, true)[0];
+                        MyMatrix newsecond = ToBalance(first, second, true)[1];
+
                         stopwatch2.Start();
 
-                        ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                        ans2 = ShtrassenMultiplication(newfirst, newsecond);
 
                         stopwatch2.Stop();
+
                         //time2 = stopwatch2.Elapsed.TotalMilliseconds;
                         time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
@@ -369,11 +377,15 @@ namespace MatrixAlgoritmsLibrary
                     }
                     else
                     {
+                        MyMatrix newfirst2 = ToBalance(first, second, true)[0];
+                        MyMatrix newsecond2 = ToBalance(first, second, true)[1];
+
                         stopwatch2.Start();
 
-                        ans2 = ShtrassenMultiplication(ToBalance(first, second, true)[0], ToBalance(first, second, true)[1]);
+                        ans2 = ShtrassenMultiplication(newfirst2, newsecond2);
 
                         stopwatch2.Stop();
+
                         //time2 = stopwatch2.Elapsed.TotalMilliseconds;
                         time2 = stopwatch2.Elapsed.TotalSeconds;
                     }
